@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wedding Invitation</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root { --bg:#f7f8f2; --ink:#2f3522; --leaf:#556041; --gold:#d2c197; --rose:#d8cbbb; --shadow:0 8px 28px rgba(0,0,0,.15); --btn-size:100px; }
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0;font-family:'Playfair Display',ui-serif,Georgia,serif;color:var(--ink);
+         background:radial-gradient(1200px 800px at 80% -10%, #fff, var(--bg));-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    .wrap{min-height:100dvh;display:grid;place-items:center;padding:24px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+    .card{width:min(720px,92vw);background:#fff;border-radius:20px;box-shadow:var(--shadow);overflow:hidden;border:2px solid var(--rose)}
+    .cover{position:relative;padding:36px 28px 64px;background:linear-gradient(135deg,#fff,#f4f5ef)}
+    .feather-btn{position:absolute;left:50%;bottom:-46px;transform:translateX(-50%);width:var(--btn-size);height:var(--btn-size);border-radius:50%;
+      border:2px solid var(--gold);background:#fff;display:grid;place-items:center;box-shadow:var(--shadow);cursor:pointer;overflow:hidden;touch-action:manipulation;z-index:2}
+    .feather-btn img{width:100%;height:100%;object-fit:cover;border-radius:50%;background:#556041}
+    .ribbon{height:6px;background:repeating-linear-gradient(90deg,var(--leaf),var(--leaf) 16px,var(--gold) 16px,var(--gold) 32px)}
+    .envelope{position:relative;width:100%;height:clamp(220px,42vw,320px);margin-top:14px;perspective:1400px}
+    .flap{position:absolute;inset:0;background:linear-gradient(180deg,#eaeade,#d6d9c5);border:1px solid #b7bfa5;border-radius:12px;transform-origin:top;transform:rotateX(0deg);
+      transition:transform .9s;box-shadow:inset 0 -40px 80px rgba(0,0,0,.05)}
+    .envelope.open .flap{transform:rotateX(-130deg)}
+    @media (prefers-reduced-motion:reduce){.flap{transition:none}.envelope.open .flap{transform:rotateX(-90deg)}html:focus-within{scroll-behavior:auto}}
+    .monogram{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;font-family:'Playfair Display',serif;color:var(--leaf);
+      font-size:clamp(20px,4.4vw,38px);line-height:1.3}
+    .reveal{display:grid;gap:16px;padding:18px 18px 26px;background:#fff;border-top:1px solid rgba(0,0,0,.06);margin-top:calc(var(--btn-size)/2 + 12px)}
+    .video-shell{width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid rgba(0,0,0,.08);box-shadow:var(--shadow);background:#000;display:none}
+    .wish-section{display:none}
+    .details{text-align:center;color:var(--leaf);font-size:clamp(14px,2.8vw,16px)}
+    .form{margin-top:6px;display:grid;gap:10px}
+    input,textarea{width:100%;border:1px solid var(--gold);border-radius:12px;padding:12px 14px;font:inherit;background:#fdfdfb;transition:border .2s, box-shadow .2s}
+    input:focus-visible,textarea:focus-visible,.btn:focus-visible{outline:none;border-color:var(--leaf);box-shadow:0 0 0 3px #55604133}
+    textarea{min-height:96px;resize:vertical}
+    .btn{padding:12px 18px;background:linear-gradient(180deg,var(--leaf),#6b7750);color:#fff;border:none;border-radius:999px;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(85,96,65,.3)}
+    .btn:hover{background:linear-gradient(180deg,#6a7750,#556041)}
+    .thanks{display:none;text-align:center;color:var(--leaf);font-style:italic}
+    .wishes{margin-top:12px;padding:14px;background:#f9f9f4;border:1px solid var(--rose);border-radius:16px;max-height:min(220px,40vh);overflow:auto}
+    .wishItem{padding:8px 10px;border-bottom:1px dashed var(--rose);color:var(--ink);word-wrap:break-word}
+    .wishItem:last-child{border-bottom:0}
+    @media (max-width:480px){:root{--btn-size:84px}.wrap{padding:16px}.card{width:94vw;border-radius:16px}.cover{padding:28px 16px 56px}.feather-btn{bottom:-40px;width:84px;height:84px}
+      .envelope{height:clamp(200px,48vw,300px)}.reveal{padding:14px;gap:14px}input,textarea{padding:12px 12px}.btn{padding:12px 16px}}
+    @media (min-width:900px){.reveal{padding:24px 28px 32px;gap:18px}}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <article class="card" aria-label="Wedding Invitation for Min Thant and Khin Nyein Chan">
+      <div class="cover">
+        <button id="openBtn" class="feather-btn" type="button" aria-label="Open the envelope to reveal video and wishes form">
+          <img src="feather.png" alt="Feather" />
+        </button>
+        <div class="envelope" id="envelope" aria-live="polite">
+          <div class="flap">
+            <div class="monogram" aria-hidden="true">
+              <div>Min Thant</div>
+              <div style="font-size:0.9em;color:var(--leaf)">♥</div>
+              <div>Khin Nyein Chan</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <section class="reveal" id="reveal" hidden>
+        <div class="video-shell" id="videoShell">
+          <video id="video" controls playsinline preload="metadata" style="width:100%;height:100%;display:block">
+            <source src="wedding.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <div class="wish-section" id="wishSection">
+          <p class="details" id="wishHeading">💌 Send your love and best wishes for the newlyweds 💌</p>
+          <form class="form" id="wishForm" aria-labelledby="wishHeading">
+            <label for="guestName" class="sr-only">Your name</label>
+            <input id="guestName" placeholder="Your name" autocomplete="name" required />
+            <label for="wish" class="sr-only">Your message</label>
+            <textarea id="wish" placeholder="Write your message…" required></textarea>
+            <button class="btn" type="submit">Send Wish</button>
+            <div class="thanks" id="thanks" role="status" aria-live="polite">Thank you! 💐</div>
+          </form>
+          <div class="wishes" id="wishes" aria-live="polite" aria-relevant="additions text"></div>
+        </div>
+      </section>
+    </article>
+  </div>
+
+  <script>
+    // ====== API base (local Express server) ======
+    const API_BASE = '/api/wishes';
+
+    // Layout helper
+    const setVH = () => { document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`); };
+    setVH(); window.addEventListener('resize', setVH);
+
+    const openBtn = document.getElementById('openBtn');
+    const envelope = document.getElementById('envelope');
+    const reveal = document.getElementById('reveal');
+    const videoShell = document.getElementById('videoShell');
+    const video = document.getElementById('video');
+    const wishSection = document.getElementById('wishSection');
+
+    openBtn.addEventListener('click', () => {
+      envelope.classList.add('open');
+      reveal.hidden = false;
+      videoShell.style.display = 'block';
+      reveal.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      video.load(); video.play().catch(() => {});
+    }, { once: true });
+
+    video.addEventListener('ended', () => {
+      wishSection.style.display = 'block';
+      wishSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    const form = document.getElementById('wishForm');
+    const wishesBox = document.getElementById('wishes');
+    const thanks = document.getElementById('thanks');
+
+    const escapeHtml = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+    async function loadWishes() {
+      try {
+        // Title always on top
+        wishesBox.innerHTML = "<h4 style='text-align:center; color:var(--leaf); margin:0 0 8px;'>💌 Wedding Wishes 💌</h4>";
+
+        const res = await fetch(API_BASE, { method: 'GET' });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || 'Failed to load');
+
+        const rows = (data.rows || []).slice().sort(
+          (a,b) => (Date.parse(a.timestamp||0)||0) - (Date.parse(b.timestamp||0)||0)
+        );
+
+        if (rows.length) {
+          const items = rows.map(w => `
+            <div class='wishItem'>
+              <strong>${escapeHtml(w.name||'Anonymous')}</strong><br/>
+              <span>${escapeHtml(w.text||'')}</span>
+            </div>
+          `).join('');
+          wishesBox.innerHTML += items;
+        }
+        // If no rows: only the title is shown (no placeholder text)
+      } catch (err) {
+        wishesBox.innerHTML = "<h4 style='text-align:center; color:var(--leaf); margin:0 0 8px;'>💌 Wedding Wishes 💌</h4>" +
+                              "<div class='wishItem'><em>Could not load wishes. Please try again later.</em></div>";
+        console.error(err);
+      }
+    }
+
+    let submitting = false;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (submitting) return;
+
+      const name = document.getElementById('guestName').value.trim();
+      const text = document.getElementById('wish').value.trim();
+      if (!name || !text) return;
+
+      submitting = true;
+      try {
+        if (window.__lastSubmit && Date.now() - window.__lastSubmit < 5000) {
+          alert('Please wait a moment before sending another wish.');
+          submitting = false; return;
+        }
+        window.__lastSubmit = Date.now();
+
+        const res = await fetch(API_BASE, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, text }) // timestamp saved server-side; not shown
+        });
+        const json = await res.json();
+        if (!json.ok) throw new Error(json.error || 'Save failed');
+
+        form.reset();
+        thanks.style.display = 'block'; setTimeout(() => (thanks.style.display = 'none'), 2000);
+        await loadWishes();
+      } catch (err) {
+        alert('Sorry, failed to send. Please try again.');
+        console.error(err);
+      } finally {
+        submitting = false;
+      }
+    });
+
+    loadWishes();
+  </script>
+</body>
+</html>
